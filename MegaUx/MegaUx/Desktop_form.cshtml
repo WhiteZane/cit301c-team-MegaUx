@@ -51,14 +51,19 @@
             <h1>Desk Order Form</h1>
 
             <p>
+                <label for="name">Name on Order:</label>
+                <input type="text" name="name" value="@Request.Form["name"]"/>
+                @Html.ValidationMessage("name")
+            </p>
+            <p>
                 <label for="width">Width:</label>
-                <input type="number" name="width" value="@Request.Form["width"]" required />
+                <input type="text" name="width" value="@Request.Form["width"]"/>
                 @Html.ValidationMessage("width")
             </p>
 
             <p>
                 <label for="length">Length:</label>
-                <input type="number" name="length" value="@Request.Form["length"]" required />
+                <input type="text" name="length" value="@Request.Form["length"]"/>
                 @Html.ValidationMessage("length")
             </p>
 
