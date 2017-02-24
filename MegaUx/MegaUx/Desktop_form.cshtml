@@ -1,5 +1,6 @@
 ﻿@{
 
+    Validation.RequireField("name", "The name for the order is required");
     Validation.Add("width", Validator.Integer());
     Validation.Add("length", Validator.Integer());
     Validation.Add("drawerCount", Validator.Integer());
@@ -8,6 +9,7 @@
 
     if (IsPost)
     {
+        var name = Request.Form["name"];
         int width = Request.Form["width"].AsInt();
         int length = Request.Form["length"].AsInt();
         int drawers = Request.Form["drawerCount"].AsInt();
@@ -18,6 +20,7 @@
         {
             <text>
                 You entered: <br />
+                Name on Order: @name <br />
                 Desk Width: @width <br />
                 Desk Length: @length <br />
                 Cost of drawers: @drawers <br />
