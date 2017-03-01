@@ -7,27 +7,28 @@
     Validation.Add("deskMaterial", Validator.Integer());
     Validation.Add("rushOrder", Validator.Integer());
 
-    if (IsPost)
+    if (IsPost && Validation.IsValid())
     {
         var name = Request.Form["name"];
-        int width = Request.Form["width"].AsInt();
-        int length = Request.Form["length"].AsInt();
-        int drawers = Request.Form["drawerCount"].AsInt();
-        int material = Request.Form["deskMaterial"].AsInt();
-        int rush = Request.Form["rushOrder"].AsInt();
+    int width = Request.Form["width"].AsInt();
+    int length = Request.Form["length"].AsInt();
+    int drawers = Request.Form["drawerCount"].AsInt();
+    int material = Request.Form["deskMaterial"].AsInt();
+    int rush = Request.Form["rushOrder"].AsInt();
 
-        if (Validation.IsValid())
-        {
+
+
+
             <text>
                 You entered: <br />
                 Name on Order: @name <br />
                 Desk Width: @width <br />
                 Desk Length: @length <br />
-                Cost of drawers: @drawers <br />
+                number of drawers: @drawers <br />
                 Material option: @material <br />
                 Days for order: @rush<br />
             </text>
-        }
+        
     }
 
 }
@@ -59,13 +60,13 @@
                 @Html.ValidationMessage("name")
             </p>
             <p>
-                <label for="width">Width:</label>
+                <label for="width">Width in inches:</label>
                 <input type="text" name="width" value="@Request.Form["width"]"/>
                 @Html.ValidationMessage("width")
             </p>
 
             <p>
-                <label for="length">Length:</label>
+                <label for="length">Length in inches:</label>
                 <input type="text" name="length" value="@Request.Form["length"]"/>
                 @Html.ValidationMessage("length")
             </p>
@@ -75,13 +76,13 @@
                 <label for="drawerCount">How Many Drawers:</label>
                 <select name="drawerCount" value="@Request.Form["drawerCount"]">
                     <option value="0">0 drawers ($0)</option>
-                    <option value="50">1 drawers ($50)</option>
-                    <option value="100">2 drawers ($100)</option>
-                    <option value="150">3 drawers ($150)</option>
-                    <option value="200">4 drawers ($200)</option>
-                    <option value="250">5 drawers ($250)</option>
-                    <option value="300">6 drawers ($300)</option>
-                    <option value="350">7 drawers ($350)</option>
+                    <option value="1">1 drawers ($50)</option>
+                    <option value="2">2 drawers ($100)</option>
+                    <option value="3">3 drawers ($150)</option>
+                    <option value="4">4 drawers ($200)</option>
+                    <option value="5">5 drawers ($250)</option>
+                    <option value="6">6 drawers ($300)</option>
+                    <option value="7">7 drawers ($350)</option>
                 </select>
                 @Html.ValidationMessage("drawerCount")
             </p>

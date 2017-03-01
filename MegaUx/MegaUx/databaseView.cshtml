@@ -1,0 +1,17 @@
+﻿@{
+    var db = Database.Open("deskOrders");
+    var selectedData = db.Query("SELECT * FROM orders");
+    var grid = new WebGrid(source: selectedData);
+}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Orders</title>
+    </head>
+    <body>
+        <h1>View Desk Orders</h1>
+        <div>
+            @grid.GetHtml()
+        </div>
+    </body>
+</html>
