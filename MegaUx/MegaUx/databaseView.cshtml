@@ -11,7 +11,23 @@
     <body>
         <h1>View Desk Orders</h1>
         <div>
-            @grid.GetHtml()
+            @grid.GetHtml(
+                tableStyle: "grid",
+                headerStyle: "head",
+                alternatingRowStyle: "alt",
+                columns: grid.Columns(
+                grid.Column(format: @<a href="~/EditOrder?id=@item.orderId">Edit</a>),
+                grid.Column("name"),
+                grid.Column("width"),
+                grid.Column("length"),
+                grid.Column("drawers"),
+                grid.Column("material"),
+                grid.Column("rushOrder"),
+                grid.Column("dateOrdered"),
+                grid.Column("total"),
+                grid.Column(format: @<a href="~/DeleteOrder?id=@item.orderId">Delete</a>)
+    )
+)
         </div>
     </body>
 </html>
