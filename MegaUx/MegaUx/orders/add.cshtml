@@ -1,0 +1,108 @@
+﻿@{
+    var nameClass = "no-error";
+    var widthClass = "no-error";
+    var lengthClass = "no-error";
+
+
+    var db = Database.Open("deskOrders");
+    var materials = db.Query("SELECT * FROM materials");
+
+    if (IsPost) {
+        Validation.RequireField("name", "Name on Order is required");
+        Validation.RequireField("width", "Desk width is required");
+        Validation.RequireField("length", "Desk length is required");
+        Validation.RequireField("drawerCount", "Drawer count is required");
+        Validation.RequireField("deskMaterial", "Desk material is required");
+        Validation.RequireField("rushOrder", "Order Days is required");
+
+        Validation.Add("width", Validator.Integer());
+        Validation.Add("length", Validator.Integer());
+        Validation.Add("drawerCount", Validator.Integer());
+        Validation.Add("deskMaterial", Validator.Integer());
+        Validation.Add("rushOrder", Validator.Integer());
+
+        nameClass = !Validation.IsValid("name") ? "has-error has-feedback" : "no-error";
+        widthClass = !Validation.IsValid("width") ? "has-error has-feedback" : "no-error";
+        lengthClass = !Validation.IsValid("length") ? "has-error has-feedback" : "no-error";
+
+        if (Validation.IsValid()) {
+            var name = Request.Form["name"];
+            int width = Request.Form["width"].AsInt();
+            int length = Request.Form["length"].AsInt();
+            int drawers = Request.Form["drawerCount"].AsInt();
+            int material = Request.Form["deskMaterial"].AsInt();
+            int rush = Request.Form["rushOrder"].AsInt();
+
+            //Do insert right here
+
+        }
+    }
+
+    Layout = "~/Shared/_Layout.cshtml";
+}
+@section PageTitle { Mega Escritorio - Add Desk Order }
+<div class="col-sm-8 text-left">
+    <form method="post">
+
+        <h1>Desk Order Form</h1>
+
+        <div class="form-group @nameClass" >
+            <label class="form-label" for="name">Name on Order:</label>
+            <input class="form-control" type="text" name="name" value="@Request.Form["name"]" aria-describedby="inputErrorName"/>
+            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            <span id="inputErrorName">@Html.ValidationMessage("name")</span>
+        </div>
+        <div class="form-group @widthClass">
+            <label class="form-label" for="width">Desk Width in inches:</label>
+            <input class="form-control" type="text" name="width" value="@Request.Form["width"]"  aria-describedby="inputErrorWidth"/>
+            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            <span id="inputErrorWidth">@Html.ValidationMessage("width")</span>
+        </div>
+        <div class="form-group @lengthClass">
+            <label class="form-label" for="length">Desk Length in inches:</label>
+            <input class="form-control" type="text" name="length" value="@Request.Form["length"]"  aria-describedby="inputErrorWidth"/>
+            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            <span id="inputErrorLength">@Html.ValidationMessage("length")</span>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="drawerCount">Number of Drawers:</label>
+            <select class="form-control" name="drawerCount" value="@Request.Form["drawerCount"]">
+                <option value="0">0 drawers ($0)</option>
+                <option value="1">1 drawers ($50)</option>
+                <option value="2">2 drawers ($100)</option>
+                <option value="3">3 drawers ($150)</option>
+                <option value="4">4 drawers ($200)</option>
+                <option value="5">5 drawers ($250)</option>
+                <option value="6">6 drawers ($300)</option>
+                <option value="7">7 drawers ($350)</option>
+            </select>
+            @Html.ValidationMessage("drawerCount")
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="deskMaterial">Desk Material:</label>
+            <select class="form-control" id="deskMaterial" name="deskMaterial" value="@Request.Form["deskMaterial"]" onchange="$('.materialImage').attr('src',$('#deskMaterial option:selected').data('imagesource'));">
+                <option data-imagesource="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" value="0"> </option>
+                @{
+                    foreach (var material in materials) {
+                        <option data-imagesource="@material["imageLink"]" value="@material["Id"]">@material["description"] ($@material["cost"])</option>
+                    }
+                }
+            </select>
+            @Html.ValidationMessage("deskMaterial")
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="rushOrder">Days on Order:</label>
+            <select class="form-control" name="rushOrder" value="@Request.Form["rushOrder"]">
+                <option value="14">14 days</option>
+                <option value="3">3 day (rush)</option>
+                <option value="5">5 day (rush)</option>
+                <option value="7">7 day (rush)</option>
+            </select>
+            @Html.ValidationMessage("rushOrder")
+        </div>
+        <button class="btn btn-primary" type="submit" name="buttonSubmit">Submit Order</button>
+    </form>
+</div>
+<div class="col-sm-2 sidenav">
+    <img class="materialImage" height="200" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Selected Desk Material" />
+</div>

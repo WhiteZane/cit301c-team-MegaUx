@@ -45,61 +45,57 @@
         var db = Database.Open("deskOrders");
         var deleteCommand = "DELETE FROM orders WHERE orderId = @0";
         db.Execute(deleteCommand, orderId);
-        Response.Redirect("~/databaseView");
+        Response.Redirect("~/orders");
     }
+    Layout = "~/Shared/_Layout.cshtml";
 }
-<html>
-<head>
-    <title>Delete Order</title>
-</head>
-<body>
-    <h1>Delete Order</h1>
-    @Html.ValidationSummary()
-    <p><a href="~/databaseView">Return to Orders</a></p>
+@section PageTitle { Mega Escritorio - Delete Desk Order }
 
-    <form method="post">
-        <fieldset>
-            <legend>Order Information</legend>
+<h1>Delete Order</h1>
+@Html.ValidationSummary()
+<p><a href="~/orders">Return to Orders</a></p>
 
-            <p>
-                <span>Name:</span>
-                <span>@name</span>
-            </p>
+<form method="post">
+    <fieldset>
+        <legend>Order Information</legend>
 
-            <p>
-                <span>Width:</span>
-                <span>@width</span>
-            </p>
+        <p>
+            <span>Name:</span>
+            <span>@name</span>
+        </p>
 
-            <p>
-                <span>Length:</span>
-                <span>@length</span>
-            </p>
-            <p>
-                <span>Drawers:</span>
-                <span>@drawers</span>
-            </p>
-            <p>
-                <span>Material:</span>
-                <span>@material</span>
-            </p>
-            <p>
-                <span>Rush Order:</span>
-                <span>@rush</span>
-            </p>
+        <p>
+            <span>Width:</span>
+            <span>@width</span>
+        </p>
+
+        <p>
+            <span>Length:</span>
+            <span>@length</span>
+        </p>
+        <p>
+            <span>Drawers:</span>
+            <span>@drawers</span>
+        </p>
+        <p>
+            <span>Material:</span>
+            <span>@material</span>
+        </p>
+        <p>
+            <span>Rush Order:</span>
+            <span>@rush</span>
+        </p>
             
-            <p>
-                <span>Total:</span>
-                <span>@total</span>
-            </p>
-            <p>
-                <span>Date:</span>
-                <span>@date</span>
-            </p>
+        <p>
+            <span>Total:</span>
+            <span>@total</span>
+        </p>
+        <p>
+            <span>Date:</span>
+            <span>@date</span>
+        </p>
 
-            <input type="hidden" name="orderid" value="@orderId" />
-            <p><input type="submit" name="buttonDelete" value="Delete Order" /></p>
-        </fieldset>
-    </form>
-</body>
-</html>
+        <input type="hidden" name="orderid" value="@orderId" />
+        <p><input type="submit" name="buttonDelete" value="Delete Order" /></p>
+    </fieldset>
+</form>

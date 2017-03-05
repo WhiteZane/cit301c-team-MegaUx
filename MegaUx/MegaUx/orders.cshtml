@@ -1,0 +1,29 @@
+﻿@{
+    var db = Database.Open("deskOrders");
+    var selectedData = db.Query("SELECT * FROM orders");
+    var grid = new WebGrid(source: selectedData);
+
+    Layout = "~/Shared/_Layout.cshtml";
+}
+@section PageTitle { Mega Escritorio - View Desk Orders }
+<h1>View Desk Orders</h1>
+<div>
+    @grid.GetHtml(
+        tableStyle: "table table-striped table-hover",
+        headerStyle: "head",
+        alternatingRowStyle: "alt",
+        columns: grid.Columns(
+            grid.Column(format: @<a class="btn btn-default" href="~/orders/edit?id=@item.orderId">Edit</a>),
+            grid.Column("name", "Name"),
+            grid.Column("width", "Width"),
+            grid.Column("length", "Length"),
+            grid.Column("drawers", "Drawers"),
+            grid.Column("material", "Material"),
+            grid.Column("rushOrder", "Order Days"),
+            grid.Column("dateOrdered", "Order Date"),
+            grid.Column("total", "Total Cost"),
+            grid.Column(format: @<a class="btn btn-default" href="~/orders/delete?id=@item.orderId">Delete</a>)
+        )
+    )
+</div>
+<a class="btn btn-primary" href="~/orders/add">New Order</a>

@@ -1,16 +1,27 @@
-﻿<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
+﻿@{ 
+    string fileName = Path.GetFileName(Request.PhysicalPath);
+    string homeClass = (fileName == "home" || fileName == "home.cshtml") ? "active" : "";
+    string deskClass = (fileName == "desk" || fileName == "desk.cshtml") ? "active" : "";
+    string ordersClass = (fileName == "orders" || fileName == "orders.cshtml") ? "active" : "";
+}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
         <div class="navbar-header">
-            
-            <a class="navbar-brand" href="#">Mega Escarito</a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Mega Escritorio</a>
         </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
+        <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#"> Desk</a></li>
-                <li><a href="#">Orders</a></li>
+                <li class="@homeClass"><a href="~/home">Home</a></li>
+                <li class="@deskClass"><a href="#"> Desk</a></li>
+                <li class="@ordersClass"><a href="~/orders">Orders</a></li>
             </ul>
-            
+
         </div>
     </div>
 </nav>
