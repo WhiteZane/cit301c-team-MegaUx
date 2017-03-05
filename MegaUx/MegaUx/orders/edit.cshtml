@@ -26,7 +26,7 @@
                 drawers = row.drawers;
                 material = row.material;
                 rush = row.rushOrder;
-                
+
 
 
             }
@@ -58,8 +58,28 @@
 
             orderId = Request.Form["orderId"];
 
-            int total = 0;
-            
+            // start determing total
+            int intialCost = 200;
+            int totalInch = width * length;
+            int costInch = 0;
+            int drawerTotal;
+
+
+            // cost of inches
+            if (totalInch >= 1000)
+            {
+                int subtract = totalInch - 1000;
+                costInch = subtract * 5;
+            }
+
+            // cost of drawers
+            drawerTotal = (drawers * 50);
+
+            // cost of Material
+            // can use database or if else statement
+
+            int total = costInch + intialCost + drawerTotal; // add material
+
 
             if (Validation.IsValid())
             {
