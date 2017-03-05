@@ -2,6 +2,7 @@
     var nameClass = "no-error";
     var widthClass = "no-error";
     var lengthClass = "no-error";
+    var deskMaterialClass = "no-error";
 
 
     var db = Database.Open("deskOrders");
@@ -24,16 +25,15 @@
         nameClass = !Validation.IsValid("name") ? "has-error has-feedback" : "no-error";
         widthClass = !Validation.IsValid("width") ? "has-error has-feedback" : "no-error";
         lengthClass = !Validation.IsValid("length") ? "has-error has-feedback" : "no-error";
+        deskMaterialClass = !Validation.IsValid("deskMaterial") ? "has-error has-feedback" : "no-error";
 
         if (Validation.IsValid()) {
             var name = Request.Form["name"];
             int width = Request.Form["width"].AsInt();
             int length = Request.Form["length"].AsInt();
             int drawers = Request.Form["drawerCount"].AsInt();
-            int material = Request.Form["deskMaterial"].AsInt();
+            int deskMaterial = Request.Form["deskMaterial"].AsInt();
             int rush = Request.Form["rushOrder"].AsInt();
-
-            var date = "";
 
             // start determing total
             int intialCost = 200;
@@ -55,13 +55,13 @@
             // cost of Material
             // can use database or if else statement
 
-            int total = costInch + intialCost + drawerTotal + material;
+            int total = costInch + intialCost + drawerTotal + deskMaterial;
 
             //Do insert right here
             db = Database.Open("deskOrders");
             var insertCommand = "INSERT INTO orders (name, width, length, drawers, material, rushOrder, total) VALUES(@0, @1, @2, @3, @4, @5, @6)";
 
-            db.Execute(insertCommand, name, width, length, drawers, material, rush, total);
+            db.Execute(insertCommand, name, width, length, drawers, deskMaterial, rush, total);
             Response.Redirect("~/orders");
 
         }
@@ -78,19 +78,19 @@
         <div class="form-group @nameClass" >
             <label class="form-label" for="name">Name on Order:</label>
             <input class="form-control" type="text" name="name" value="@Request.Form["name"]" aria-describedby="inputErrorName"/>
-            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true"></span>
             <span id="inputErrorName">@Html.ValidationMessage("name")</span>
         </div>
         <div class="form-group @widthClass">
             <label class="form-label" for="width">Desk Width in inches:</label>
             <input class="form-control" type="text" name="width" value="@Request.Form["width"]"  aria-describedby="inputErrorWidth"/>
-            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true"></span>
             <span id="inputErrorWidth">@Html.ValidationMessage("width")</span>
         </div>
         <div class="form-group @lengthClass">
             <label class="form-label" for="length">Desk Length in inches:</label>
             <input class="form-control" type="text" name="length" value="@Request.Form["length"]"  aria-describedby="inputErrorWidth"/>
-            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true"></span>
             <span id="inputErrorLength">@Html.ValidationMessage("length")</span>
         </div>
         <div class="form-group">
@@ -107,17 +107,20 @@
             </select>
             @Html.ValidationMessage("drawerCount")
         </div>
-        <div class="form-group">
+        <div class="form-group @deskMaterialClass">
             <label class="form-label" for="deskMaterial">Desk Material:</label>
-            <select class="form-control" id="deskMaterial" name="deskMaterial" value="@Request.Form["deskMaterial"]" onchange="$('.materialImage').attr('src',$('#deskMaterial option:selected').data('imagesource'));">
-                <option data-imagesource="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" value="0"> </option>
+            <select class="form-control" id="deskMaterial" name="deskMaterial" value="@Request.Form["deskMaterial"]" onchange="$('.materialImage').attr('src',$('#deskMaterial option:selected').data('imagesource'));" aria-describedby="inputErrorDeskMaterial">
+                <option data-imagesource="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" value=""> </option>
                 @{
+                    var selected = "";
                     foreach (var material in materials) {
-                        <option data-imagesource="@material["imageLink"]" value="@material["Id"]">@material["description"] ($@material["cost"])</option>
+                        selected = (material["Id"]).ToString() == Request.Form["deskMaterial"] ? "selected" : "";
+                        <option @selected data-imagesource="@material["imageLink"]" value="@material["Id"]">@material["description"] ($@material["cost"])</option>
                     }
                 }
             </select>
-            @Html.ValidationMessage("deskMaterial")
+            <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true"></span>
+            <span id="inputErrorDeskMaterial">@Html.ValidationMessage("deskMaterial")</span>
         </div>
         <div class="form-group">
             <label class="form-label" for="rushOrder">Days on Order:</label>

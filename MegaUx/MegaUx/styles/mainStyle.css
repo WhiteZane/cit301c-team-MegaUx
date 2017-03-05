@@ -23,3 +23,6 @@ footer {
 .no-error .glyphicon {
     display:none;
 }
+select + .glyphicon {
+    right: 10px;
+}
