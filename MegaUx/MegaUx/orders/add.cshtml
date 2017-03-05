@@ -59,9 +59,9 @@
 
             //Do insert right here
             db = Database.Open("deskOrders");
-            var insertCommand = "INSERT INTO orders (name, width, length, drawers, material, rushOrder, dateOrdered, total) VALUES(@0, @1, @2, @3, @4, @5, @6, @7)";
+            var insertCommand = "INSERT INTO orders (name, width, length, drawers, material, rushOrder, total) VALUES(@0, @1, @2, @3, @4, @5, @6)";
 
-            db.Execute(insertCommand, name, width, length, drawers, material, rush, date, total);
+            db.Execute(insertCommand, name, width, length, drawers, material, rush, total);
             Response.Redirect("~/orders");
 
         }
