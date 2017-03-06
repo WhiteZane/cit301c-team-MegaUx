@@ -51,3 +51,22 @@ select + .glyphicon {
 .materialImage {
     width: 200px;
 }
+
+.right {
+    text-align: right;
+}
+
+.table>tbody>tr>td {
+    vertical-align: middle;
+}
+
+.head th:nth-child(3),
+.head th:nth-child(4),
+.head th:nth-child(5),
+.head th:nth-child(6),
+.head th:nth-child(7),
+.head th:nth-child(9) {
+    text-align: right;
+}.head th:nth-child(8) {
+    text-align: center;
+}
