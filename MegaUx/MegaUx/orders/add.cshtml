@@ -91,7 +91,7 @@
 <div class="col-sm-5 text-left">
     <form method="post">
 
-        <h1>Desk Order Form</h1>
+        <h2>Add Desk Order</h2>
 
         <div class="form-group @nameClass" >
             <label class="form-label" for="name">Name on Order:</label>
@@ -163,6 +163,7 @@
             @Html.ValidationMessage("rushOrder")
         </div>
         <button class="btn btn-primary" type="submit" name="buttonSubmit">Submit Order</button>
+        <a class="btn btn-default" href="~/orders">Cancel</a>
     </form>
 </div>
 <div class="image-frame">
