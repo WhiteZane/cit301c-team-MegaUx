@@ -1,11 +1,21 @@
 ﻿body {
-    width: 800px;
     margin: 0 auto;
-    padding-top: 50px;
+    padding: 50px 0;
+}
+
+main {    
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
 }
 
 footer {
-    padding: 15px;
+    padding: 5px 15px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #000;
 }
 
 .validation-summary-errors {
@@ -25,4 +35,19 @@ footer {
 }
 select + .glyphicon {
     right: 10px;
+}
+
+.home_desk {
+    width: 50%;
+}
+
+.image-frame {
+    border: thin solid #ccc;
+    box-shadow: 0 2px 14px #ccc;
+    padding: 14px;
+    margin-top: 15px;
+}
+
+.materialImage {
+    width: 200px;
 }

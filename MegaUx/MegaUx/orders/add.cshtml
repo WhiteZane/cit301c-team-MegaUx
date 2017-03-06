@@ -68,9 +68,12 @@
     }
 
     Layout = "~/Shared/_Layout.cshtml";
+
+    var selected = "";
+    var selectedImageSource = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 }
 @section PageTitle { Mega Escritorio - Add Desk Order }
-<div class="col-sm-8 text-left">
+<div class="col-sm-5 text-left">
     <form method="post">
 
         <h1>Desk Order Form</h1>
@@ -109,12 +112,16 @@
         </div>
         <div class="form-group @deskMaterialClass">
             <label class="form-label" for="deskMaterial">Desk Material:</label>
-            <select class="form-control" id="deskMaterial" name="deskMaterial" value="@Request.Form["deskMaterial"]" onchange="$('.materialImage').attr('src',$('#deskMaterial option:selected').data('imagesource'));" aria-describedby="inputErrorDeskMaterial">
+            <select class="form-control" id="deskMaterial" name="deskMaterial" value="@Request.Form["deskMaterial"]" aria-describedby="inputErrorDeskMaterial">
                 <option data-imagesource="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" value=""> </option>
                 @{
-                    var selected = "";
                     foreach (var material in materials) {
-                        selected = (material["Id"]).ToString() == Request.Form["deskMaterial"] ? "selected" : "";
+                        if(material["Id"].ToString() == Request.Form["deskMaterial"]) {
+                            selected = "selected";
+                            selectedImageSource = material["imageLink"];
+                        } else {
+                            selected = "";
+                        }
                         <option @selected data-imagesource="@material["imageLink"]" value="@material["Id"]">@material["description"] ($@material["cost"])</option>
                     }
                 }
@@ -135,6 +142,6 @@
         <button class="btn btn-primary" type="submit" name="buttonSubmit">Submit Order</button>
     </form>
 </div>
-<div class="col-sm-2 sidenav">
-    <img class="materialImage" height="200" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Selected Desk Material" />
+<div class="image-frame">
+    <img class="materialImage" src="@selectedImageSource" alt="Selected Desk Material" />
 </div>

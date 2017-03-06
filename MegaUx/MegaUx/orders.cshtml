@@ -6,9 +6,10 @@
     Layout = "~/Shared/_Layout.cshtml";
 }
 @section PageTitle { Mega Escritorio - View Desk Orders }
-<h1>View Desk Orders</h1>
 <div>
-    @grid.GetHtml(
+    <h1>View Desk Orders</h1>
+    <div>
+        @grid.GetHtml(
         tableStyle: "table table-striped table-hover",
         headerStyle: "head",
         alternatingRowStyle: "alt",
@@ -25,5 +26,6 @@
             grid.Column(format: @<a class="btn btn-default" href="~/orders/delete?id=@item.orderId">Delete</a>)
         )
     )
+    </div>
+    <a class="btn btn-primary" href="~/orders/add">New Order</a>
 </div>
-<a class="btn btn-primary" href="~/orders/add">New Order</a>

@@ -1,9 +1,31 @@
 ﻿@{ 
-    string fileName = Path.GetFileName(Request.PhysicalPath);
-    string homeClass = (fileName == "home" || fileName == "home.cshtml") ? "active" : "";
-    string deskClass = (fileName == "desk" || fileName == "desk.cshtml") ? "active" : "";
-    string ordersClass = (fileName == "orders" || fileName == "orders.cshtml") ? "active" : "";
-}
+        string fileName = Path.GetFileName(Request.PhysicalPath);
+
+        string homeClass = "";
+        string deskClass = "";
+        string ordersClass = "";
+
+        switch (fileName) {
+            case "home":
+            case "home.cshtml":
+                homeClass = "active";
+                break;
+            case "desk":
+            case "desk.cshtml":
+                deskClass = "active";
+                break;
+            case "orders":
+            case "orders.cshtml":
+            case "add":
+            case "add.cshtml":
+            case "edit":
+            case "edit.cshtml":
+            case "delete":
+            case "delete.cshtml":
+                ordersClass = "active";
+                break;
+        }
+    }
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
