@@ -2,17 +2,12 @@
         string fileName = Path.GetFileName(Request.PhysicalPath);
 
         string homeClass = "";
-        string deskClass = "";
         string ordersClass = "";
 
         switch (fileName) {
             case "home":
             case "home.cshtml":
                 homeClass = "active";
-                break;
-            case "desk":
-            case "desk.cshtml":
-                deskClass = "active";
                 break;
             case "orders":
             case "orders.cshtml":
@@ -40,7 +35,6 @@
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav">
                 <li class="@homeClass"><a href="~/home">Home</a></li>
-                <li class="@deskClass"><a href="#"> Desk</a></li>
                 <li class="@ordersClass"><a href="~/orders">Orders</a></li>
             </ul>
 
