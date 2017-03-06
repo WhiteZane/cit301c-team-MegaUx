@@ -38,7 +38,7 @@
                 headerStyle: "head",
                 alternatingRowStyle: "alt",
                 columns: grid.Columns(
-                    grid.Column(format: @<a class="btn btn-default" href="~/orders/edit?id=@item.orderId">Edit</a>),
+                    grid.Column(format: @<a class="btn btn-default" href="~/orders/edit?orderId=@item.orderId">Edit</a>),
                     grid.Column("name", "Name", canSort: true, style: "col-sm-2"),
                     grid.Column("width", "Width", style: "right"),
                     grid.Column("length", "Length", style: "right"),
@@ -48,7 +48,7 @@
                     grid.Column("rushOrder", "Order Days", style: "right"),
                     grid.Column("dateOrdered", "Order Date", canSort: true, style: "right"),
                     grid.Column("total", "Total Cost", style: "right"),
-                    grid.Column(format: @<a class="btn btn-default" href="~/orders/delete?id=@item.orderId">Delete</a>)
+                    grid.Column(format: @<a class="btn btn-default" href="~/orders/delete?orderId=@item.orderId">Delete</a>)
                 )
             )
         </div>
