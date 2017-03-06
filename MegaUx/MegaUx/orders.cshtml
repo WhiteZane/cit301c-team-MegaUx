@@ -10,10 +10,9 @@
 
     var deskOrders = db.Query(deskOrdersSQL, searchCustomer);
 
-    //var materials = db.Query("SELECT * FROM materials");
     IEnumerable<dynamic> materials = db.Query("SELECT * FROM materials");
     
-    var grid = new WebGrid(source: deskOrders, canSort: true, canPage: true, rowsPerPage: 10);
+    var grid = new WebGrid(source: deskOrders, canSort: true, canPage: true, rowsPerPage: 5);
     
     Layout = "~/Shared/_Layout.cshtml";
 }
@@ -27,6 +26,7 @@
                 <input class="form-control" type="text" name="searchCustomer" value="@Request.QueryString["searchCustomer"]" aria-describedby="inputErrorSearchCustomer" />
                 <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true"></span>
                 <span id="inputErrorSearchCustomer"></span>
+                <div><em>Leave blank to view all results</em></div>
             </div>
             <button class="btn btn-primary" type="submit" name="buttonSubmit">Search</button>
         </form>
@@ -43,7 +43,7 @@
                     grid.Column("width", "Width", style: "right"),
                     grid.Column("length", "Length", style: "right"),
                     grid.Column("drawers", "Drawers", style: "right"),
-                    grid.Column(format: @<span>@{int thisMaterial = Int32.Parse(@item.material);
+                    grid.Column(format: @<span>@{int thisMaterial = Int32.Parse(@item.material) - 1;
                     } @materials.ElementAt(thisMaterial).description</span>, columnName: "material", header: "Material", style: "right"),
                     grid.Column("rushOrder", "Order Days", style: "right"),
                     grid.Column("dateOrdered", "Order Date", canSort: true, style: "right"),

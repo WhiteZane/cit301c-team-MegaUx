@@ -39,25 +39,38 @@
             int intialCost = 200;
             int totalInch = width * length;
             int costInch = 0;
+            int materialCost = 0;
+            int rushCost = 0;
             int drawerTotal;
 
 
             // cost of inches
-            if (totalInch >= 1000)
-            {
-                int subtract = totalInch - 1000;
-                costInch = subtract * 5;
-            }
+            costInch = (totalInch > 1000) ? totalInch * 5 : 0;
 
             // cost of drawers
             drawerTotal = (drawers * 50);
 
             // cost of Material
-            // can use database or if else statement
+            var materialPricesSQL = "SELECT * FROM materials WHERE Id = @0";
+            var materialPrices = db.QuerySingle(materialPricesSQL, deskMaterial);
+            materialCost = materialPrices.cost;
 
-            int total = costInch + intialCost + drawerTotal + deskMaterial;
+            //cost of rush orders
+            var dayPricesSQL = "SELECT * FROM dayPrices WHERE days = @0";
+            var dayPrices = db.QuerySingle(dayPricesSQL, rush);
 
-            //Do insert right here
+            if (totalInch < 1000) {
+                rushCost = dayPrices.costTier1;
+            } else if (totalInch < 2000) {
+                rushCost = dayPrices.costTier2;
+            } else {
+                rushCost = dayPrices.costTier3;
+            }
+
+            //Calculate totals
+            int total = intialCost + costInch + drawerTotal + materialCost + rushCost;
+
+            //Insert record
             db = Database.Open("deskOrders");
             var insertCommand = "INSERT INTO orders (name, width, length, drawers, material, rushOrder, total) VALUES(@0, @1, @2, @3, @4, @5, @6)";
 
@@ -71,6 +84,8 @@
 
     var selected = "";
     var selectedImageSource = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+
+    var optionSelected = "selected";
 }
 @section PageTitle { Mega Escritorio - Add Desk Order }
 <div class="col-sm-5 text-left">
@@ -99,14 +114,22 @@
         <div class="form-group">
             <label class="form-label" for="drawerCount">Number of Drawers:</label>
             <select class="form-control" name="drawerCount" value="@Request.Form["drawerCount"]">
-                <option value="0">0 drawers ($0)</option>
-                <option value="1">1 drawers ($50)</option>
-                <option value="2">2 drawers ($100)</option>
-                <option value="3">3 drawers ($150)</option>
-                <option value="4">4 drawers ($200)</option>
-                <option value="5">5 drawers ($250)</option>
-                <option value="6">6 drawers ($300)</option>
-                <option value="7">7 drawers ($350)</option>
+                <option @{ if (Request.Form["drawerCount"] == "0") { @optionSelected } }
+                    value="0">0 drawers ($0)</option>
+                <option @{ if (Request.Form["drawerCount"] == "1") { @optionSelected } }
+                    value="1">1 drawer ($50)</option>
+                <option @{ if (Request.Form["drawerCount"] == "2") { @optionSelected } }
+                    value="2">2 drawers ($100)</option>
+                <option @{ if (Request.Form["drawerCount"] == "3") { @optionSelected } }
+                    value="3">3 drawers ($150)</option>
+                <option @{ if (Request.Form["drawerCount"] == "4") { @optionSelected } }
+                    value="4">4 drawers ($200)</option>
+                <option @{ if (Request.Form["drawerCount"] == "5") { @optionSelected } }
+                    value="5">5 drawers ($250)</option>
+                <option @{ if (Request.Form["drawerCount"] == "6") { @optionSelected } }
+                    value="6">6 drawers ($300)</option>
+                <option @{ if (Request.Form["drawerCount"] == "7") { @optionSelected } }
+                    value="7">7 drawers ($350)</option>
             </select>
             @Html.ValidationMessage("drawerCount")
         </div>
@@ -132,10 +155,10 @@
         <div class="form-group">
             <label class="form-label" for="rushOrder">Days on Order:</label>
             <select class="form-control" name="rushOrder" value="@Request.Form["rushOrder"]">
-                <option value="14">14 days</option>
-                <option value="3">3 day (rush)</option>
-                <option value="5">5 day (rush)</option>
-                <option value="7">7 day (rush)</option>
+                <option @{ if (Request.Form["rushOrder"] == "14") { @optionSelected } } value="14">14 days</option>
+                <option @{ if (Request.Form["rushOrder"] == "3") { @optionSelected  } } value="3">3 day (rush)</option>
+                <option @{ if (Request.Form["rushOrder"] == "5") { @optionSelected  } } value="5">5 day (rush)</option>
+                <option @{ if (Request.Form["rushOrder"] == "7") { @optionSelected  } } value="7">7 day (rush)</option>
             </select>
             @Html.ValidationMessage("rushOrder")
         </div>
