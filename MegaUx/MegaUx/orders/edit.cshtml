@@ -79,7 +79,7 @@
             int drawerTotal;
 
             // cost of inches
-            costInch = (totalInch > 1000) ? totalInch * 5 : 0;
+            costInch = (totalInch > 1000) ? (totalInch - 1000) * 5 : 0;
 
             // cost of drawers
             drawerTotal = (drawers * 50);
